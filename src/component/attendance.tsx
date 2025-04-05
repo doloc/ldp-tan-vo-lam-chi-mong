@@ -1,5 +1,21 @@
+'use client'
+import { useEffect, useState } from "react";
+import PopupHistoryCheckin from "./popup/popup-history-checkin";
+import PopupRulesCheckin from "./popup/popup-rules-checkin";
+import PopupReceiveGift from "./popup/popup-receive-gift";
+
 const Attendance = () => {
-    const milstone = 10;
+    const [popupHisCheckinOpen, setPopupHisCheckinOpen] = useState(false);
+    const [popupRulesCheckinOpen, setPopupRulesCheckinOpen] = useState(false);
+    const [popupReceiveGiftOpen, setPopupReceiveGiftOpen] = useState(false);
+    const [milestone, setMileStone] = useState(0);
+    const numCount = 10;
+
+    const receiveGift = (milestone: number) => {
+        if (numCount <= milestone) return
+        setMileStone(milestone)
+        setPopupReceiveGiftOpen(true)
+    }
 
     return (
         <div className="z-10 w-full max-w-2xl bg-[url('/images/bg-attendance.jpg')] aspect-[640/603] bg-no-repeat bg-cover bg-center overflow-hidden">
@@ -16,7 +32,7 @@ const Attendance = () => {
                                 {Array.from({ length: 12 }, (_, index) => (
                                     <div
                                         key={index}
-                                        className={`flex items-center justify-center text-base font-bold w-full bg-[url('/images/bg-number.png')] aspect-[12/13] bg-no-repeat bg-cover bg-center overflow-hidden ${index < milstone ? '' : 'grayscale'}`}
+                                        className={`flex items-center justify-center text-base font-bold w-full bg-[url('/images/bg-number.png')] aspect-[12/13] bg-no-repeat bg-cover bg-center overflow-hidden ${index < numCount ? '' : 'grayscale'}`}
                                     >
                                         <span className="bg-gradient-to-b from-[#B43616] to-[#CB130B] inline-block text-transparent bg-clip-text tracking-wide" style={{fontFamily: 'SVN Desire'}}>{index + 1}</span>
                                     </div>
@@ -26,9 +42,9 @@ const Attendance = () => {
 
                         <div className="absolute w-[45%] top-[72%] left-[4%]">
                             <div className="grid grid-cols-2 grid-rows-2 gap-[0.5vw] w-full">
-                                <button className="flex justify-center items-center bg-[url('/images/btn-history.png')] aspect-[3/1] bg-no-repeat bg-cover bg-center overflow-hidden">
+                                <button className="flex justify-center items-center bg-[url('/images/btn-history.png')] aspect-[3/1] bg-no-repeat bg-cover bg-center overflow-hidden" onClick={() => setPopupHisCheckinOpen(true)}>
                                 </button>
-                                <button className="flex justify-center items-center bg-[url('/images/btn-rules.png')] aspect-[3/1] bg-no-repeat bg-cover bg-center overflow-hidden">
+                                <button className="flex justify-center items-center bg-[url('/images/btn-rules.png')] aspect-[3/1] bg-no-repeat bg-cover bg-center overflow-hidden" onClick={() => setPopupRulesCheckinOpen(true)}>
                                 </button>
                                 <div className="col-span-2 flex justify-center items-center">
                                     <button className="w-[49%] flex justify-center items-center bg-[url('/images/btn-attendance.png')] aspect-[3/1] bg-no-repeat bg-cover bg-center overflow-hidden">
@@ -42,16 +58,16 @@ const Attendance = () => {
                             <div className="grid grid-cols-2 grid-rows-2 gap-[0.8vw] w-full text-sm text-[#FEF4B2]">
                                 <div className="relative flex justify-center bg-[url('/images/bg-milstone.png')] aspect-[138/167] bg-no-repeat bg-cover bg-center overflow-hidden">
                                     <span className="absolute top-[18%] left-[20%]">Mốc 4</span>
-                                    <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${4 <= milstone ? '' : 'grayscale'}`}></button>
+                                    <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${4 <= numCount ? '' : 'grayscale'}`} onClick={() => receiveGift(4)}></button>
                                 </div>
                                 <div className="relative flex justify-center bg-[url('/images/bg-milstone.png')] aspect-[138/167] bg-no-repeat bg-cover bg-center overflow-hidden">
                                     <span className="absolute top-[18%] left-[20%]">Mốc 8</span>
-                                    <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${8 <= milstone ? '' : 'grayscale'}`}></button>
+                                    <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${8 <= numCount ? '' : 'grayscale'}`} onClick={() => receiveGift(8)}></button>
                                 </div>
                                 <div className="col-span-2 flex justify-center items-center">
                                     <div className="relative flex justify-center w-[47%] bg-[url('/images/bg-milstone.png')] aspect-[138/167] bg-no-repeat bg-cover bg-center overflow-hidden">
                                         <span className="absolute top-[18%] left-[20%]">Mốc 12</span>
-                                        <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${12 <= milstone ? '' : 'grayscale'}`}></button>
+                                        <button className={`mt-[95%] h-[17%] bg-[url('/images/btn-receive.png')] aspect-[106/29] bg-no-repeat bg-cover bg-center ${12 <= numCount ? '' : 'grayscale'}`} onClick={() => receiveGift(12)}></button>
                                     </div>
                                 </div>
                                 
@@ -60,6 +76,22 @@ const Attendance = () => {
                     </div>
                 </div>
             </div>
+
+            <PopupHistoryCheckin
+                isOpen={popupHisCheckinOpen}
+                onClose={() => setPopupHisCheckinOpen(false)}
+            />
+
+            <PopupRulesCheckin
+                isOpen={popupRulesCheckinOpen}
+                onClose={() => setPopupRulesCheckinOpen(false)}
+            />
+
+            <PopupReceiveGift 
+                isOpen={popupReceiveGiftOpen}
+                onClose={() => setPopupReceiveGiftOpen(false)}
+                milestone={milestone}
+            />
         </div>
     )
 }

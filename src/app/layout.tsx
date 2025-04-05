@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import RecoidContextProvider from "@/atom/atom";
+import Loading from "@/component/loading";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <RecoidContextProvider>
+          <Loading />
+          {children}
+        </RecoidContextProvider>
       </body>
     </html>
   );
