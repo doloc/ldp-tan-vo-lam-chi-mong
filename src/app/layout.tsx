@@ -4,13 +4,13 @@ import localFont from "next/font/local";
 import RecoidContextProvider from "@/atom/atom";
 import Loading from "@/component/loading";
 
-export const fzHbrGame = localFont({
+const fzHbrGame = localFont({
   src: "./fonts/FzHBRGame.ttf",
   variable: "--font-fz-hbr-game",
   weight: "100 900",
 });
 
-export const utmCafeta = localFont({
+const utmCafeta = localFont({
   src: "./fonts/UTM_Cafeta.ttf",
   variable: "--font-utm-cafeta",
   weight: "100 900",
