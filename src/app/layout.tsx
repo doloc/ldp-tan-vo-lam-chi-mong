@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import localFont from "next/font/local";
 import RecoidContextProvider from "@/atom/atom";
 import Loading from "@/component/loading";
+
+export const fzHbrGame = localFont({
+  src: "./fonts/FzHBRGame.ttf",
+  variable: "--font-fz-hbr-game",
+  weight: "100 900",
+});
+
+export const utmCafeta = localFont({
+  src: "./fonts/UTM_Cafeta.ttf",
+  variable: "--font-utm-cafeta",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${utmCafeta.variable} ${fzHbrGame.variable}`} style={{ fontFamily: 'var(--font-utm-cafeta)' }}>
         <RecoidContextProvider>
           <Loading />
           {children}

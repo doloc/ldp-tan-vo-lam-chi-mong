@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface PopupProps {
   isOpen: boolean;
@@ -26,27 +27,35 @@ const Popup: React.FC<PopupProps> = ({
       };
   
     return (
-      <div className="fixed inset-0 bg-black/65 flex items-center justify-center z-50" onClick={handleOverlayClick}>
-        <div className="relative bg-white p-6 rounded-lg w-11/12 max-w-md shadow-lg animate-fade">
+      <motion.div className="fixed inset-0 bg-black/65 flex items-center justify-center z-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={handleOverlayClick}>
+        <motion.div className="relative flex flex-col items-center w-11/12 max-w-md shadow-lg bg-[url('/images/bg-popup.png')] aspect-[112/169] bg-no-repeat bg-cover bg-center"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}>
           <button
-            className="absolute top-2 right-2 w-6 h-6 text-gray-600 hover:text-black text-2xl leading-none"
+            className="absolute -top-[1%] -right-[1%] w-[10%] bg-[url('/images/icon-close.png')] aspect-[45/46] bg-no-repeat bg-cover bg-center"
             onClick={onClose}
           >
-            ×
           </button>
-          <h3 className="text-center text-lg font-semibold text-[#C60E0F] mb-4">
+          <h3 className={`mt-[10%] w-[40%] text-center text-4xl font-semibold text-[#C60E0F]`} style={{ fontFamily: 'var(--font-fz-hbr-game)' }}>
             {title}
           </h3>
-          <div className="text-center mb-4">
-            {displayContent?.split('\n').map((line, index) => (
+          <div className="text-center mb-4 w-[80%] bg-[url('/images/bg-popup-content.png')] aspect-[457/577] bg-no-repeat bg-cover bg-center">
+            {/* {displayContent?.split('\n').map((line, index) => (
               <p key={index} className="text-gray-700 my-1">
                 {line}
               </p>
-            ))}
+            ))} */}
+            {children && <div className="mt-4">{children}</div>}
           </div>
-          {children && <div className="mt-4">{children}</div>}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   };
   

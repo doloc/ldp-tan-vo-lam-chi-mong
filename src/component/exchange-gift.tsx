@@ -1,24 +1,32 @@
 'use client'
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "./popup";
 
 const ExchangeGift = () => {
     const [boxes, setBoxes] = useState<string[]>(Array(12).fill('/images/bg-box-shape.png'));
     const [popupOpen, setPopupOpen] = useState(false);
-    const [popupContent, setPopupContent] = useState<string | string[]>('');
+    const [popupContent, setPopupContent] = useState<string[]>([]);
     const [isRolling, setIsRolling] = useState(false);
 
     const LIGHT_DURATION = 800; // Duration của box-light.gif
     const OPEN_DURATION = 1100; // Duration của box-open.gif
 
     const rewards = [
-        "100 Xu",
-        "Vũ khí hiếm",
-        "Skin đặc biệt",
-        "500 Kim cương",
-        "Hộp quà bí ẩn"
+      "100 Xu",
+      "Vũ khí hiếm",
+      "Skin đặc biệt",
+      "500 Kim cương",
+      "Hộp quà bí ẩn"
     ];
+
+    const rewardImages: { [key: string]: string } = {
+      "100 Xu": "/images/reward-1.png",
+      "Vũ khí hiếm": "/images/reward-2.png",
+      "Skin đặc biệt": "/images/reward-2.png",
+      "500 Kim cương": "/images/reward-1.png",
+      "Hộp quà bí ẩn": "/images/reward-1.png",
+    };
 
     const rollOne = () => {
         if (isRolling) return;
@@ -43,7 +51,7 @@ const ExchangeGift = () => {
           // Đợi thêm thời gian để hiệu ứng mở hộp hoàn tất
           setTimeout(() => {
             const reward = rewards[Math.floor(Math.random() * rewards.length)];
-            setPopupContent(reward);
+            setPopupContent([reward]);
             setPopupOpen(true);
             
             // Reset box sau khi popup hiển thị
@@ -131,9 +139,9 @@ const ExchangeGift = () => {
             </div>
 
             <div className="w-[85%] flex justify-between">
-                <button className="w-[50%] bg-[url('/images/btn-roll-1.png')] aspect-[143/51] bg-no-repeat bg-cover bg-center overflow-hidden" onClick={rollOne}>
+                <button className={`w-[50%] bg-[url('/images/btn-roll-1.png')] aspect-[143/51] bg-no-repeat bg-cover bg-center overflow-hidden`} onClick={rollOne} disabled={isRolling}>
                 </button>
-                <button className="w-[50%] bg-[url('/images/btn-roll-10.png')] aspect-[143/51] bg-no-repeat bg-cover bg-center overflow-hidden" onClick={rollTen}>
+                <button className="w-[50%] bg-[url('/images/btn-roll-10.png')] aspect-[143/51] bg-no-repeat bg-cover bg-center overflow-hidden" onClick={rollTen} disabled={isRolling}>
                 </button>
             </div>
 
@@ -163,10 +171,57 @@ const ExchangeGift = () => {
             </div>
 
             <Popup
-                isOpen={popupOpen}
-                onClose={() => setPopupOpen(false)}
-                content={popupContent}
-            />
+              title="Chúc mừng nhận thưởng"
+              isOpen={popupOpen}
+              onClose={() => setPopupOpen(false)}
+              content={popupContent}
+            >
+              <div className="w-full flex justify-center items-center">
+                {popupContent.length === 1 && (
+                  <img
+                    src={rewardImages[popupContent[0]]}
+                    alt={popupContent[0]}
+                    className="w-1/2"
+                  />
+                )}
+                {popupContent.length > 1 && (
+                  <div className="w-full">
+                    <div className="grid grid-cols-4 gap-2">
+                      {popupContent.slice(0, 4).map((reward, index) => (
+                        <img
+                          key={index}
+                          src={rewardImages[reward]}
+                          alt={reward}
+                          className="w-full"
+                        />
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      {popupContent.slice(4, 8).map((reward, index) => (
+                        <img
+                          key={index}
+                          src={rewardImages[reward]}
+                          alt={reward}
+                          className="w-full"
+                        />
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      <div></div>
+                      {popupContent.slice(8, 10).map((reward, index) => (
+                        <img
+                          key={index}
+                          src={rewardImages[reward]}
+                          alt={reward}
+                          className="w-full"
+                        />
+                      ))}
+                      {popupContent.length === 9 && <div></div>}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Popup>
         </div>
     )
 }

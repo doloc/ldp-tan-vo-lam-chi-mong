@@ -3,3 +3,8 @@ export interface UserInfo {
     name: string;
     ticket: number;
 }
+
+export interface CheckIn {
+    time: number;
+    desc: string;
+}

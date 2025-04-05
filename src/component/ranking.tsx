@@ -1,6 +1,4 @@
-'use client'
 import { UserInfo } from "@/types/leader-board"
-import { useEffect } from "react"
 
 const data: UserInfo[] = [
     {
